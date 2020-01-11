@@ -59,7 +59,6 @@ public class KangRpcServer {
                         socketChannel.pipeline().addLast(new DubboServerHandler(serviceBean));
                     }
                 });
-        ;
         //  绑定我们的端口号码
         try {
             // 绑定端口号，同步等待成功
