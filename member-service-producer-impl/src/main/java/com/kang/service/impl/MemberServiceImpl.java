@@ -10,4 +10,9 @@ public class MemberServiceImpl implements MemberService {
     public String getUser(Long userId) {
         return "hello kangkang!!!" + userId;
     }
+
+    @Override
+    public String test(Long id) {
+        return "nihao" + id;
+    }
 }
