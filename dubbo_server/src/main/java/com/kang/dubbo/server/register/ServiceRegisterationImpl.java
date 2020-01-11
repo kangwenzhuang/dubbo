@@ -30,7 +30,7 @@ public class ServiceRegisterationImpl implements ServiceRegisteration {
             zkClient.createPersistent(providerNodePath);
         }
         String serviceAddressNodePath = providerNodePath + "/" + URLEncoder.encode(serviceAddress);
-        if (!zkClient.exists(serviceAddressNodePath)) {
+        if (zkClient.exists(serviceAddressNodePath)) {
             zkClient.delete(serviceAddressNodePath);
         }
         zkClient.createPersistent(serviceAddressNodePath);

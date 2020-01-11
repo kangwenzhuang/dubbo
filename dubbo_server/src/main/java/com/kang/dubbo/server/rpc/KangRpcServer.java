@@ -2,6 +2,7 @@ package com.kang.dubbo.server.rpc;
 
 import com.kang.dubbo.RpcAnnotation;
 import com.kang.dubbo.server.handler.DubboServerHandler;
+import com.kang.dubbo.server.marshalling.MarshallingCodeCFactory;
 import com.kang.dubbo.server.register.ServiceRegisteration;
 import com.kang.dubbo.server.register.ServiceRegisterationImpl;
 import io.netty.bootstrap.ServerBootstrap;
@@ -26,12 +27,17 @@ public class KangRpcServer {
         serviceRegisteration = new ServiceRegisterationImpl();
     }
 
+    public void start(Object object) {
+        bind(object);
+        nettyStart();
+    }
+
     public void bind(Object object) {
         RpcAnnotation rpcAnnotation = object.getClass().getDeclaredAnnotation(RpcAnnotation.class);
         if (rpcAnnotation == null) {
             return;
         }
-        String serviceName = rpcAnnotation.value().getClass().getName();
+        String serviceName = rpcAnnotation.value().getName();
         String serviceAddress = "kangkang://" + host + ":" + port;
         serviceRegisteration.register(serviceName, serviceAddress);
         serviceBean.put(serviceName, object);
@@ -48,8 +54,8 @@ public class KangRpcServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-//                        socketChannel.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingDecoder());
-//                        socketChannel.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingEncoder());
+                        socketChannel.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingDecoder());
+                        socketChannel.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingEncoder());
                         socketChannel.pipeline().addLast(new DubboServerHandler(serviceBean));
                     }
                 });

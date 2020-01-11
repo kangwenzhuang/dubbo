@@ -8,6 +8,6 @@ import com.kang.service.api.MemberService;
 public class MemberServiceImpl implements MemberService {
     @Override
     public String getUser(Long userId) {
-        return "hello kangkang!!!";
+        return "hello kangkang!!!" + userId;
     }
 }
