@@ -10,6 +10,7 @@
         <module name="dubbo_server" />
         <module name="member-service-producer-api" />
         <module name="member-service-producer-impl" />
+        <module name="order-consumer-impl" />
       </profile>
     </annotationProcessing>
   </component>
